@@ -10,49 +10,23 @@ import java.util.stream.Stream;
 public class Day2 {
 
 	public static void main(String[] args) {
-		System.out.println("Safe Reports Part 1: " + part1());
 		try {
-			System.out.println("Safe Reports Part 2 better: " + part2());
+			System.out.println("Safe Reports Part 1: " + part1());
+			System.out.println("Safe Reports Part 2: " + part2());
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	public static int part1() {
-		int safeReports = 0;
-		try {
-            String input = Files.readString(Path.of("src/Day2/Day2Input.txt"));
-            String[] reports = input.split("\n");
-            for(String report : reports) {
-            	int[] levels = Arrays.stream(report.split(" ")).mapToInt(Integer::parseInt).toArray();
-            	boolean isSafe = true;
-            	Direction direction;
-            	if (levels[0] < levels[1]) {
-            		direction = Direction.POSITIVE;
-            	} else if (levels[0] > levels[1]) {
-            		direction = Direction.NEGATIVE;
-            	} else {
-            		continue;
-            	}
-            	
-            	for(int i = 0; i < levels.length - 1; i++) {
-            		int distance = direction == Direction.POSITIVE ? levels[i+1] - levels[i] : levels[i] - levels[i+1];
-            		if (distance < 1 || distance > 3) {
-            			isSafe = false;
-            			break;
-            		}
-            	}
-            	
-            	if(isSafe)
-            		safeReports++;
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace(); // Handle exceptions (e.g., file not found)
-        }
-		
-		return safeReports;
+	public static int part1() throws Exception {
+        String input = Files.readString(Path.of("src/Day2/Day2Input.txt"));
+        String[] reports = input.split("\n");
+        
+        return (int) Stream.of(reports).map((String report) -> {
+        	ArrayList<Integer> levels = Arrays.asList(report.split(" ")).stream().map(Integer::parseInt).collect(Collectors.toCollection(ArrayList::new));
+        	return isSafeRunThrough(levels) ? 1 : 0;
+        }).reduce(0, (a,b) -> a + b);
 	}
 	
 	public static int part2() throws Exception {
