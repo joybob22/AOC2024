@@ -67,7 +67,6 @@ public class Day2 {
             		direction = Direction.NEGATIVE;
             	} else if (canRemoveWithSafeRunThrough(levels, 0)) {
     				safeReports++;
-//    				System.out.println(report + " is safe!");
     				continue;
     			} else {
     				continue;
@@ -76,74 +75,22 @@ public class Day2 {
             	for(int i = 0; i < levels.size() - 1; i++) {
             		int distance = direction == Direction.POSITIVE ? levels.get(i+1) - levels.get(i) : levels.get(i) - levels.get(i+1);
             		if (distance < 1 || distance > 3) {
-            			
             			if(canRemoveWithSafeRunThrough(levels, i)) {
             				break;
             			} else {
             				isSafe = false;
             				break;
             			}
-            			
-            			
-            			
-            			
-            			
-            			
-            			
-//            			if (distance == 0) {
-//            				levels.remove(i);
-//            				i--;
-//            				levelRemoved = true;
-//            				continue;
-//            			}
-//            			
-//        				// Could we remove the first level?
-//            			if(i > 0) {
-//            				int newDistanceRemovingFirstLevel = direction == Direction.POSITIVE ? levels.get(i+1) - levels.get(i-1) : levels.get(i-1) - levels.get(i+1);
-//            				
-//            				if(newDistanceRemovingFirstLevel > 0 && newDistanceRemovingFirstLevel < 4) {
-//            					if (i < levels.size() - 2) {
-//            						int distanceForNextLevelWithFirstLevelRemoved = direction == Direction.POSITIVE ? levels.get(i+2) - levels.get(i+1) : levels.get(i+1) - levels.get(i+2);
-//            						if(distanceForNextLevelWithFirstLevelRemoved > 0 && distanceForNextLevelWithFirstLevelRemoved < 4) {
-//            							levels.remove(i);
-//                        				i--;
-//                        				levelRemoved = true;
-//                        				continue;
-//            						}
-//            					} else {
-//            						levels.remove(i);
-//                    				i--;
-//                    				levelRemoved = true;
-//                    				continue;
-//            					}
-//            				}
-//            			}
-//        				
-//        				// Could we remove the second level?
-//        				if(i >= levels.size() - 2) {
-//        					isSafe = false;
-//        					break;
-//        				}
-//        				int newDistanceRemovingSecondLevel = direction == Direction.POSITIVE ? levels.get(i+2) - levels.get(i) : levels.get(i) - levels.get(i+2);
-//        				if(newDistanceRemovingSecondLevel > 0 && newDistanceRemovingSecondLevel < 4) {
-//        					levels.remove(i+1);
-//        					levelRemoved = true;
-//        					continue;
-//        				}
-//        				
-//        				isSafe = false;
-//        				break;
             		}
             	}
             	
             	if(isSafe) {
             		safeReports++;
-//            		System.out.println(report + " is safe!");
             	}
             }
             
         } catch (Exception e) {
-            e.printStackTrace(); // Handle exceptions (e.g., file not found)
+            e.printStackTrace();
         }
 		
 		return safeReports;
