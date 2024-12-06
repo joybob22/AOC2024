@@ -12,7 +12,11 @@ public class Day6 {
 	public static void main(String[] args) {
 		try {
 			System.out.println("Part 1: " + part1());
+			long startTime = System.nanoTime();
 			System.out.println("Part 2: " + part2());
+			long endTime = System.nanoTime();
+			double durationInSeconds = (endTime - startTime) / 1000000000.0;
+			System.out.println("Part 2 runtime: " + durationInSeconds);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -40,15 +44,24 @@ public class Day6 {
 		return Arrays.stream(grid.nodesArr).map(a -> Arrays.stream(a).map(e -> e.visited ? 1 : 0).reduce(0, (b,c) -> b+c)).reduce(0, (a,b) -> a+b);
 	}
 	
+	public static Day6Grid getPart1Grid() throws Exception {
+		Day6Grid grid = setup();
+		Integer[] start = Arrays.stream(grid.start.split(",")).map(Integer::parseInt).toArray(Integer[]::new);
+		Day6Node startNode = grid.nodesArr[start[0]][start[1]];
+		startNode.guardPatrol(startNode, Direction.TOP);
+		return grid;
+	}
+	
 	public static int part2() throws Exception {
 		Day6Grid grid = setup();
+		Day6Grid noAddedBlockersGrid = getPart1Grid();
 		Integer[] start = Arrays.stream(grid.start.split(",")).map(Integer::parseInt).toArray(Integer[]::new);
 		Day6Node startNode = grid.nodesArr[start[0]][start[1]];
 		int numLoops = 0;
 		for(int i = 0; i < grid.nodesArr.length; i++) {
 			for(int j = 0; j < grid.nodesArr[i].length; j++) {
 				Day6Node node = grid.nodesArr[i][j];
-				if(node.space == '#' || (i == start[0] && j == start[1]))
+				if(node.space == '#' || (i == start[0] && j == start[1]) || !noAddedBlockersGrid.nodesArr[i][j].visited)
 					continue;
 				char originalSpace = node.space.charValue();
 				grid.nodesArr[i][j].space = '#';
